@@ -2,10 +2,8 @@
 
 ## Future Features
 
-- Save game state to local storage
-- Add a "are you sure" to new game button
-- Add seprate game rules page with instructions on how to play in markdown
-- Add favicon
+- Make game board look more like cards.
+    - Add dithering and shadows to cards and piles.
 - Keyboard controls (with pop up window showing controls)
 - PWA (Progressive Web App) support
 - Native app support (Tauri)
