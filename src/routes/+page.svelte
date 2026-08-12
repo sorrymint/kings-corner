@@ -252,6 +252,128 @@
 </script>
 
 <main class="mx-auto max-w-4xl p-4 font-mono text-xs sm:text-sm select-none">
+    {#if isGameOver}
+        <div class="mb-4 p-3 bg-neutral-900 text-white font-bold text-center">
+            Game Over! Winner: {winner}
+        </div>
+    {/if}
+
+    <!-- Board Grid -->
+    <div class="mx-auto mb-6 max-w-lg">
+        <div class="grid grid-cols-3 bg-neutral-100">
+            <div
+                class="flex items-center justify-center border-r-[2px] border-b-[2px] border-neutral-800 bg-neutral-100 p-2"
+            >
+                <PileSlot
+                    label="NW Corner"
+                    pile={game.piles[4]}
+                    selected={game.selectedPileIndex === 4}
+                    variant="corner"
+                    onSelect={() => handlePileClick(4)}
+                    highlight={game.cpuHighlight === 4}
+                />
+            </div>
+            <div
+                class="flex items-center justify-center border-r-[2px] border-b-[2px] border-neutral-800 bg-neutral-100 p-2"
+            >
+                <PileSlot
+                    label="North"
+                    pile={game.piles[0]}
+                    selected={game.selectedPileIndex === 0}
+                    onSelect={() => handlePileClick(0)}
+                    highlight={game.cpuHighlight === 0}
+                />
+            </div>
+            <div
+                class="flex items-center justify-center border-b-[2px] border-neutral-800 bg-neutral-100 p-2"
+            >
+                <PileSlot
+                    label="NE Corner"
+                    pile={game.piles[5]}
+                    selected={game.selectedPileIndex === 5}
+                    variant="corner"
+                    onSelect={() => handlePileClick(5)}
+                    highlight={game.cpuHighlight === 5}
+                />
+            </div>
+
+            <div
+                class="flex items-center justify-center border-r-[2px] border-b-[2px] border-neutral-800 bg-neutral-100 p-2"
+            >
+                <PileSlot
+                    label="West"
+                    pile={game.piles[3]}
+                    selected={game.selectedPileIndex === 3}
+                    onSelect={() => handlePileClick(3)}
+                    highlight={game.cpuHighlight === 3}
+                />
+            </div>
+            <div
+                class="flex items-center justify-center border-r-[2px] border-b-[2px] border-neutral-800 bg-neutral-100 p-2"
+            >
+                <div
+                    class="stock-slot bg-dither relative flex h-32 w-22 items-center justify-center"
+                >
+                    <span
+                        class="rounded-sm bg-white px-1 py-0.5 text-[9px] font-black uppercase tracking-[0.18em] text-neutral-950"
+                    >
+                        STOCK
+                    </span>
+                    <span
+                        class="absolute bottom-1 rounded-sm bg-white px-1 py-0.5 text-[8px] font-bold text-neutral-900"
+                    >
+                        Stock Left: {game.deck.length}
+                    </span>
+                </div>
+            </div>
+            <div
+                class="flex items-center justify-center border-b-[2px] border-neutral-800 bg-neutral-100 p-2"
+            >
+                <PileSlot
+                    label="East"
+                    pile={game.piles[1]}
+                    selected={game.selectedPileIndex === 1}
+                    onSelect={() => handlePileClick(1)}
+                    highlight={game.cpuHighlight === 1}
+                />
+            </div>
+
+            <div
+                class="flex items-center justify-center border-r-[2px] border-neutral-800 bg-neutral-100 p-2"
+            >
+                <PileSlot
+                    label="SW Corner"
+                    pile={game.piles[7]}
+                    selected={game.selectedPileIndex === 7}
+                    variant="corner"
+                    onSelect={() => handlePileClick(7)}
+                    highlight={game.cpuHighlight === 7}
+                />
+            </div>
+            <div
+                class="flex items-center justify-center border-r-[2px] border-neutral-800 bg-neutral-100 p-2"
+            >
+                <PileSlot
+                    label="South"
+                    pile={game.piles[2]}
+                    selected={game.selectedPileIndex === 2}
+                    onSelect={() => handlePileClick(2)}
+                    highlight={game.cpuHighlight === 2}
+                />
+            </div>
+            <div class="flex items-center justify-center bg-neutral-100 p-2">
+                <PileSlot
+                    label="SE Corner"
+                    pile={game.piles[6]}
+                    selected={game.selectedPileIndex === 6}
+                    variant="corner"
+                    onSelect={() => handlePileClick(6)}
+                    highlight={game.cpuHighlight === 6}
+                />
+            </div>
+        </div>
+    </div>
+
     <section
         class="mb-4 flex min-h-12 items-center gap-2 justify-between border border-neutral-200 bg-neutral-100 p-2"
     >
@@ -283,86 +405,6 @@
             </button>
         </div>
     </section>
-
-    {#if isGameOver}
-        <div class="mb-4 p-3 bg-neutral-900 text-white font-bold text-center">
-            Game Over! Winner: {winner}
-        </div>
-    {/if}
-
-    <!-- Board Grid -->
-    <div class="grid grid-cols-3 gap-2 mb-6 max-w-lg mx-auto">
-        <PileSlot
-            label="NW Corner"
-            pile={game.piles[4]}
-            selected={game.selectedPileIndex === 4}
-            variant="corner"
-            onSelect={() => handlePileClick(4)}
-            highlight={game.cpuHighlight === 4}
-        />
-        <PileSlot
-            label="North"
-            pile={game.piles[0]}
-            selected={game.selectedPileIndex === 0}
-            onSelect={() => handlePileClick(0)}
-            highlight={game.cpuHighlight === 0}
-        />
-        <PileSlot
-            label="NE Corner"
-            pile={game.piles[5]}
-            selected={game.selectedPileIndex === 5}
-            variant="corner"
-            onSelect={() => handlePileClick(5)}
-            highlight={game.cpuHighlight === 5}
-        />
-        <PileSlot
-            label="West"
-            pile={game.piles[3]}
-            selected={game.selectedPileIndex === 3}
-            onSelect={() => handlePileClick(3)}
-            highlight={game.cpuHighlight === 3}
-        />
-
-        <div
-            class="h-28 border border-neutral-200 bg-neutral-100 p-1 flex flex-col justify-center items-center text-center"
-        >
-            <span class="text-[10px] uppercase tracking-wider text-neutral-500"
-                >Stock</span
-            >
-            <span class="text-lg font-bold">{game.deck.length}</span>
-        </div>
-
-        <PileSlot
-            label="East"
-            pile={game.piles[1]}
-            selected={game.selectedPileIndex === 1}
-            onSelect={() => handlePileClick(1)}
-            highlight={game.cpuHighlight === 1}
-        />
-        <PileSlot
-            label="SW Corner"
-            pile={game.piles[7]}
-            selected={game.selectedPileIndex === 7}
-            variant="corner"
-            onSelect={() => handlePileClick(7)}
-            highlight={game.cpuHighlight === 7}
-        />
-        <PileSlot
-            label="South"
-            pile={game.piles[2]}
-            selected={game.selectedPileIndex === 2}
-            onSelect={() => handlePileClick(2)}
-            highlight={game.cpuHighlight === 2}
-        />
-        <PileSlot
-            label="SE Corner"
-            pile={game.piles[6]}
-            selected={game.selectedPileIndex === 6}
-            variant="corner"
-            onSelect={() => handlePileClick(6)}
-            highlight={game.cpuHighlight === 6}
-        />
-    </div>
 
     <!-- Hand Area -->
     <section class="border-t border-neutral-300 pt-3">

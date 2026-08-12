@@ -14,15 +14,16 @@
     <div
         class="mx-auto flex max-w-4xl items-center justify-between gap-3 px-4 py-3"
     >
-        <div class="min-w-0">
+        <div class="min-w-0 flex m-2 items-center gap-2">
             <img src={favicon} alt="Kings in the Corner" class="h-6 w-6" />
             <a href="/" aria-label="Kings in the Corner">
-                <h1 class="truncate text-base font-bold">
+                <h1 class="truncate text-base font-bold uppercase">
                     Kings in the Corner
                 </h1>
             </a>
         </div>
 
+        <!-- TODO: Make these two buttons/link the same width -->
         <nav class="flex flex-wrap items-center justify-end gap-2">
             <a
                 href="/how-to-play"
