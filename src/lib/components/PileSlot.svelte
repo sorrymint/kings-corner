@@ -26,7 +26,7 @@
 <button
     onclick={onSelect}
     class="relative h-32 w-22 overflow-hidden rounded-md border-[3px] border-neutral-200 bg-white p-1 text-left shadow-[0_4px_10px_rgba(15,23,42,0.12)] transition-transform
-    {variant === 'corner'
+    {variant === 'corner' && pile.length === 0
         ? 'border-dashed border-neutral-400 bg-neutral-50'
         : 'border-neutral-300 bg-white'}
     {selected
@@ -62,9 +62,11 @@
                 {getRankLabel(topCard.rank)}
             </span>
 
-            <span class="absolute bottom-1 left-1 text-xs text-neutral-700"
-                >Depth: {pile.length}</span
+            <span
+                class="absolute inset-x-0 bottom-1 flex justify-center text-[9px] text-neutral-700"
             >
+                Depth: {pile.length}
+            </span>
         </div>
     {:else}
         <div

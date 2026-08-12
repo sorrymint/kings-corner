@@ -2,9 +2,10 @@
 
 ## Future Features
 
-- Combine "Draw" and End turn buttons into one button that changes text based on game state.
+- Remove "You draw a card" Text. Only show messages when someone wins or loses. Or the game is waiting for the player draw a card or end their turn.
+- Add card faid in animation for when cards are played to the board.
+- Short hand button (value or color).
 - Move depth text to below the card
-- Remove the dotted border from the corner piles when they are NOT empty.
 - Mobile hand card paging with swipe gestures
 - Keyboard controls (with pop up window showing controls)
 - PWA (Progressive Web App) support

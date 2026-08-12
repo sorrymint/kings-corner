@@ -23,7 +23,7 @@
         selectedHandIndex: number | null;
         selectedPileIndex: number | null;
         statusMessage: string;
-        cpuHighlight: number | null;
+        cpuHighlights: number[];
     };
 
     function createFreshGame(): GameState {
@@ -39,7 +39,7 @@
             selectedHandIndex: null,
             selectedPileIndex: null,
             statusMessage: 'Game started. Draw a card to begin your turn.',
-            cpuHighlight: null,
+            cpuHighlights: [],
         };
     }
 
@@ -60,6 +60,11 @@
                 ...createFreshGame(),
                 ...parsed,
                 piles: parsed.piles.map((pile) => pile ?? []),
+                cpuHighlights: Array.isArray(parsed.cpuHighlights)
+                    ? parsed.cpuHighlights.filter(
+                          (index) => typeof index === 'number',
+                      )
+                    : [],
             };
         } catch {
             localStorage.removeItem(STORAGE_KEY);
@@ -78,6 +83,17 @@
             : game.computerHand.length === 0
               ? 'Computer'
               : null,
+    );
+    let turnButtonText = $derived(
+        game.currentTurn !== 'player'
+            ? "Computer's Turn"
+            : isGameOver
+              ? 'Game Over'
+              : !game.hasDrawnCard
+                ? game.deck.length === 0
+                    ? 'No Cards Left'
+                    : 'Draw Card'
+                : 'End Turn',
     );
 
     import { onMount } from 'svelte';
@@ -214,10 +230,23 @@
         game.selectedPileIndex = null;
         game.currentTurn = 'computer';
         game.statusMessage = "Computer's turn...";
-        game.cpuHighlight = null;
+        game.cpuHighlights = [];
         saveGame();
 
         setTimeout(runComputerTurn, 400);
+    }
+
+    function handleTurnButtonClick() {
+        if (game.currentTurn !== 'player' || isGameOver) return;
+
+        if (game.hasDrawnCard) {
+            endTurn();
+            return;
+        }
+
+        if (game.deck.length > 0) {
+            drawCard();
+        }
     }
 
     function runComputerTurn() {
@@ -236,22 +265,31 @@
         game.piles = nextState.piles;
         game.currentTurn = 'player';
         game.hasDrawnCard = false;
-        game.statusMessage = 'Your turn. Draw a card to begin.';
 
-        const changedIndex = before.findIndex(
-            (length, index) => length !== game.piles[index].length,
-        );
-        game.cpuHighlight = changedIndex >= 0 ? changedIndex : null;
+        const changedIndices = before
+            .map((length, index) =>
+                length !== game.piles[index].length ? index : -1,
+            )
+            .filter((index) => index >= 0);
+        game.cpuHighlights = changedIndices;
+
+        if (changedIndices.length === 0) {
+            game.statusMessage = 'Computer took a turn.';
+        } else if (changedIndices.length === 1) {
+            game.statusMessage = `Computer played on ${PILE_NAMES[changedIndices[0]]}.`;
+        } else {
+            game.statusMessage = `Computer moved a stack from ${PILE_NAMES[changedIndices[0]]} to ${PILE_NAMES[changedIndices[1]]}.`;
+        }
 
         setTimeout(() => {
-            game.cpuHighlight = null;
-        }, 280);
+            game.cpuHighlights = [];
+        }, 900);
 
         saveGame();
     }
 </script>
 
-<main class="mx-auto max-w-4xl p-4 font-mono text-xs sm:text-sm select-none">
+<main class="mx-auto max-w-5xl p-4 font-mono text-xs sm:text-sm select-none">
     {#if isGameOver}
         <div class="mb-4 p-3 bg-neutral-900 text-white font-bold text-center">
             Game Over! Winner: {winner}
@@ -259,7 +297,7 @@
     {/if}
 
     <!-- Board Grid -->
-    <div class="mx-auto mb-6 max-w-lg">
+    <div class="mx-auto mb-5 max-w-lg">
         <div class="grid grid-cols-3">
             <div
                 class="flex items-center justify-center border-r-[2px] border-b-[2px] border-neutral-800 p-2"
@@ -270,7 +308,7 @@
                     selected={game.selectedPileIndex === 4}
                     variant="corner"
                     onSelect={() => handlePileClick(4)}
-                    highlight={game.cpuHighlight === 4}
+                    highlight={game.cpuHighlights.includes(4)}
                 />
             </div>
             <div
@@ -281,7 +319,7 @@
                     pile={game.piles[0]}
                     selected={game.selectedPileIndex === 0}
                     onSelect={() => handlePileClick(0)}
-                    highlight={game.cpuHighlight === 0}
+                    highlight={game.cpuHighlights.includes(0)}
                 />
             </div>
             <div
@@ -293,7 +331,7 @@
                     selected={game.selectedPileIndex === 5}
                     variant="corner"
                     onSelect={() => handlePileClick(5)}
-                    highlight={game.cpuHighlight === 5}
+                    highlight={game.cpuHighlights.includes(5)}
                 />
             </div>
 
@@ -305,7 +343,7 @@
                     pile={game.piles[3]}
                     selected={game.selectedPileIndex === 3}
                     onSelect={() => handlePileClick(3)}
-                    highlight={game.cpuHighlight === 3}
+                    highlight={game.cpuHighlights.includes(3)}
                 />
             </div>
             <div
@@ -334,7 +372,7 @@
                     pile={game.piles[1]}
                     selected={game.selectedPileIndex === 1}
                     onSelect={() => handlePileClick(1)}
-                    highlight={game.cpuHighlight === 1}
+                    highlight={game.cpuHighlights.includes(1)}
                 />
             </div>
 
@@ -347,7 +385,7 @@
                     selected={game.selectedPileIndex === 7}
                     variant="corner"
                     onSelect={() => handlePileClick(7)}
-                    highlight={game.cpuHighlight === 7}
+                    highlight={game.cpuHighlights.includes(7)}
                 />
             </div>
             <div
@@ -358,7 +396,7 @@
                     pile={game.piles[2]}
                     selected={game.selectedPileIndex === 2}
                     onSelect={() => handlePileClick(2)}
-                    highlight={game.cpuHighlight === 2}
+                    highlight={game.cpuHighlights.includes(2)}
                 />
             </div>
             <div class="flex items-center justify-center p-2">
@@ -368,7 +406,7 @@
                     selected={game.selectedPileIndex === 6}
                     variant="corner"
                     onSelect={() => handlePileClick(6)}
-                    highlight={game.cpuHighlight === 6}
+                    highlight={game.cpuHighlights.includes(6)}
                 />
             </div>
         </div>
@@ -378,32 +416,15 @@
         class="mb-4 flex min-h-12 items-center gap-2 justify-between border border-neutral-200 bg-neutral-100 p-2"
     >
         <span class="flex-1 min-w-0">{game.statusMessage}</span>
-        <div
-            class="flex min-h-8 items-center gap-2 transition-opacity
-        {game.currentTurn !== 'player' || isGameOver
-                ? 'opacity-0 pointer-events-none'
-                : ''}"
+        <button
+            disabled={game.currentTurn !== 'player' ||
+                isGameOver ||
+                (!game.hasDrawnCard && game.deck.length === 0)}
+            onclick={handleTurnButtonClick}
+            class="px-3 py-1 bg-neutral-800 text-white disabled:opacity-40"
         >
-            <button
-                disabled={game.currentTurn !== 'player' ||
-                    game.hasDrawnCard ||
-                    game.deck.length === 0 ||
-                    isGameOver}
-                onclick={drawCard}
-                class="px-3 py-1 bg-neutral-800 text-white disabled:opacity-40"
-            >
-                Draw Card
-            </button>
-            <button
-                disabled={game.currentTurn !== 'player' ||
-                    !game.hasDrawnCard ||
-                    isGameOver}
-                onclick={endTurn}
-                class="px-3 py-1 border border-neutral-800 disabled:opacity-40"
-            >
-                End Turn
-            </button>
-        </div>
+            {turnButtonText}
+        </button>
     </section>
 
     <!-- Hand Area -->
