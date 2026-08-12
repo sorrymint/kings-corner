@@ -14,7 +14,6 @@
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
 }
 
-/* Optional high-density version */
 .bg-dither-dense {
     background-image: repeating-conic-gradient(#000 0 25%, #ffffff 0 50%);
     background-size: 2px 2px;

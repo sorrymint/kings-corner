@@ -260,9 +260,9 @@
 
     <!-- Board Grid -->
     <div class="mx-auto mb-6 max-w-lg">
-        <div class="grid grid-cols-3 bg-neutral-100">
+        <div class="grid grid-cols-3">
             <div
-                class="flex items-center justify-center border-r-[2px] border-b-[2px] border-neutral-800 bg-neutral-100 p-2"
+                class="flex items-center justify-center border-r-[2px] border-b-[2px] border-neutral-800 p-2"
             >
                 <PileSlot
                     label="NW Corner"
@@ -274,7 +274,7 @@
                 />
             </div>
             <div
-                class="flex items-center justify-center border-r-[2px] border-b-[2px] border-neutral-800 bg-neutral-100 p-2"
+                class="flex items-center justify-center border-r-[2px] border-b-[2px] border-neutral-800 p-2"
             >
                 <PileSlot
                     label="North"
@@ -285,7 +285,7 @@
                 />
             </div>
             <div
-                class="flex items-center justify-center border-b-[2px] border-neutral-800 bg-neutral-100 p-2"
+                class="flex items-center justify-center border-b-[2px] border-neutral-800 p-2"
             >
                 <PileSlot
                     label="NE Corner"
@@ -298,7 +298,7 @@
             </div>
 
             <div
-                class="flex items-center justify-center border-r-[2px] border-b-[2px] border-neutral-800 bg-neutral-100 p-2"
+                class="flex items-center justify-center border-r-[2px] border-b-[2px] border-neutral-800 p-2"
             >
                 <PileSlot
                     label="West"
@@ -309,7 +309,7 @@
                 />
             </div>
             <div
-                class="flex items-center justify-center border-r-[2px] border-b-[2px] border-neutral-800 bg-neutral-100 p-2"
+                class="flex items-center justify-center border-r-[2px] border-b-[2px] border-neutral-800 p-2"
             >
                 <div
                     class="stock-slot bg-dither relative flex h-32 w-22 items-center justify-center"
@@ -327,7 +327,7 @@
                 </div>
             </div>
             <div
-                class="flex items-center justify-center border-b-[2px] border-neutral-800 bg-neutral-100 p-2"
+                class="flex items-center justify-center border-b-[2px] border-neutral-800 p-2"
             >
                 <PileSlot
                     label="East"
@@ -339,7 +339,7 @@
             </div>
 
             <div
-                class="flex items-center justify-center border-r-[2px] border-neutral-800 bg-neutral-100 p-2"
+                class="flex items-center justify-center border-r-[2px] border-neutral-800 p-2"
             >
                 <PileSlot
                     label="SW Corner"
@@ -351,7 +351,7 @@
                 />
             </div>
             <div
-                class="flex items-center justify-center border-r-[2px] border-neutral-800 bg-neutral-100 p-2"
+                class="flex items-center justify-center border-r-[2px] border-neutral-800 p-2"
             >
                 <PileSlot
                     label="South"
@@ -361,7 +361,7 @@
                     highlight={game.cpuHighlight === 2}
                 />
             </div>
-            <div class="flex items-center justify-center bg-neutral-100 p-2">
+            <div class="flex items-center justify-center p-2">
                 <PileSlot
                     label="SE Corner"
                     pile={game.piles[6]}
